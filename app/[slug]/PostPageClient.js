@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Footer from '../components/Footer';
-import replaceTurkishChars from '../utils/turkishChars';
+import replaceTurkishChars from '../utils/turkishChars'; 
 import { MdOutlineDateRange } from 'react-icons/md';
 import Image from 'next/image';
 
@@ -100,7 +100,7 @@ export default function PostPageClient({ slug }) {
 
       const category = replaceTurkishChars(
         post.frontmatter.categories[0]
-      ).toLowerCase();
+      ).toLowerCase(); 
       try {
         const res = await fetch(
           `/api/similar-posts?category=${category}&slug=${slug}`
@@ -192,7 +192,7 @@ export default function PostPageClient({ slug }) {
                 key={category}
                 href={`/kategori/${replaceTurkishChars(
                   category
-                ).toLowerCase()}`}
+                ).toLowerCase()}`} 
               >
                 <span className="cursor-pointer bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300">
                   {category}

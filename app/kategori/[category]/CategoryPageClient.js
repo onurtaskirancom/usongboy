@@ -3,15 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import BlogList from '../../components/BlogList';
-import replaceTurkishChars from '../../utils/turkishChars';
+import replaceTurkishChars from '../../utils/turkishChars'; 
 import Footer from '@/app/components/Footer';
 
 export default function CategoryPageClient({ category }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const formattedCategory = replaceTurkishChars(category)
-    .toLowerCase()
-    .replace(/-/g, ' ');
   const page = searchParams.get('page');
   const currentPage = page ? parseInt(page, 10) : 1;
 
@@ -21,20 +18,22 @@ export default function CategoryPageClient({ category }) {
   useEffect(() => {
     async function fetchCategoryPosts() {
       try {
-        const res = await fetch(`/api/posts?category=${formattedCategory}`);
+        const res = await fetch(
+          `/api/posts?category=${replaceTurkishChars(category)}`
+        );
         if (!res.ok) {
           throw new Error('Failed to fetch posts');
         }
         const data = await res.json();
-        setPosts(data || []); 
+        setPosts(data || []);
       } catch (error) {
         console.error('Error fetching posts:', error);
-        setPosts([]); 
+        setPosts([]);
       }
     }
 
     fetchCategoryPosts();
-  }, [formattedCategory]);
+  }, [category]);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -49,9 +48,7 @@ export default function CategoryPageClient({ category }) {
     <>
       <div className="max-w-screen-xl mx-auto p-4 mt-16">
         <h1 className="text-3xl font-bold text-center mb-8">
-          {formattedCategory.charAt(0).toUpperCase() +
-            formattedCategory.slice(1)}{' '}
-          Yazıları
+          {category.charAt(0).toUpperCase() + category.slice(1)} Yazıları
         </h1>
         <BlogList posts={currentPosts} />
         {totalPages > 1 && (

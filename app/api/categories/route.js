@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import replaceTurkishChars from '../../utils/turkishChars'; 
 
 export async function GET() {
   try {
@@ -13,7 +14,9 @@ export async function GET() {
       const fileContents = fs.readFileSync(filePath, 'utf-8');
       const { data } = matter(fileContents);
       if (data.categories) {
-        data.categories.forEach((category) => categories.add(category));
+        data.categories.forEach((category) => {
+          categories.add(replaceTurkishChars(category));
+        });
       }
     });
 
