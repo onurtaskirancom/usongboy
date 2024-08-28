@@ -1,0 +1,78 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import BlogList from '../components/BlogList';
+import Footer from '../components/Footer';
+
+export default function SearchResultsClient({ searchParams }) {
+  const router = useRouter();
+  const query = searchParams?.q || ''; // Arama sorgusunu alıyoruz
+  const page = searchParams?.page || 1;
+  const currentPage = parseInt(page, 10);
+
+  const [posts, setPosts] = useState([]);
+  const postsPerPage = 6;
+
+  useEffect(() => {
+    async function fetchSearchResults() {
+      try {
+        const res = await fetch(`/api/posts?q=${encodeURIComponent(query)}`);
+        if (!res.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await res.json();
+        setPosts(data || []); // Eğer data undefined ise boş array olarak ayarla
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        setPosts([]); // Hata durumunda boş array olarak ayarla
+      }
+    }
+
+    if (query) {
+      fetchSearchResults();
+    }
+  }, [query]);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+
+  const paginate = (pageNumber) => {
+    router.push(`/search?q=${encodeURIComponent(query)}&page=${pageNumber}`);
+  };
+
+  return (
+    <>
+      <div className="max-w-screen-xl mx-auto p-4 mt-16">
+        <h1 className="text-3xl font-bold text-center mb-8">
+          Arama Sonuçları: &quot;{query}&quot;
+        </h1>
+        {currentPosts.length > 0 ? (
+          <>
+            <BlogList posts={currentPosts} />
+            <div className="pagination mt-4 flex justify-center">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => paginate(index + 1)}
+                  className={`px-4 py-2 mx-1 rounded ${
+                    currentPage === index + 1
+                      ? 'bg-gray-900 text-white'
+                      : 'bg-gray-300 text-black'
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="text-center">Sonuç bulunamadı.</p>
+        )}
+      </div>
+      <Footer />
+    </>
+  );
+}
