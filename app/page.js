@@ -17,7 +17,7 @@ export default function Home() {
   const [categories, setCategories] = useState([]);
   const [popularPosts, setPopularPosts] = useState([]);
   const [recentPosts, setRecentPosts] = useState([]);
-  const [postsPerPage] = useState(10);
+  const [postsPerPage] = useState(8);
 
   useEffect(() => {
     async function fetchPosts() {

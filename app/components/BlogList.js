@@ -2,8 +2,17 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 
 const BlogList = ({ posts }) => {
+  const [imageErrors, setImageErrors] = useState({});
+
+  const handleImageError = (slug) => {
+    setImageErrors((prev) => ({ ...prev, [slug]: true }));
+  };
+
+  const defaultImage = '/images/default.jpg'; // Varsayılan resim yolu
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {posts.map((post) => (
@@ -14,11 +23,16 @@ const BlogList = ({ posts }) => {
         >
           <div className="relative overflow-hidden">
             <Image
-              src={post.image}
+              src={
+                imageErrors[post.slug] || !post.image
+                  ? defaultImage
+                  : post.image
+              }
               alt={post.title}
-              width={500} 
-              height={300} 
+              width={500}
+              height={300}
               className="w-full h-56 object-cover rounded-t-lg transition-transform duration-300 hover:scale-105"
+              onError={() => handleImageError(post.slug)}
             />
           </div>
           <div className="p-8 bg-white dark:bg-zinc-800">

@@ -18,13 +18,15 @@ export default function PostPageClient({ slug }) {
   const [similarPosts, setSimilarPosts] = useState([]);
   const hasIncrementedViews = useRef(false);
   const firstRender = useRef(true);
-  const router = useRouter(); 
+  const router = useRouter();
+
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     async function fetchPost() {
-      if (!slug || slug === 'rss.xml') return; // Filter files like rss.xml
+      if (!slug || slug === 'rss.xml') return;
       try {
         const res = await fetch(`/api/mdx?slug=${slug}`);
         if (!res.ok) {
@@ -49,7 +51,7 @@ export default function PostPageClient({ slug }) {
     return () => {
       isMounted = false;
     };
-  }, [slug, router]); 
+  }, [slug, router]);
 
   useEffect(() => {
     if (
@@ -130,7 +132,7 @@ export default function PostPageClient({ slug }) {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.frontmatter.title,
-    image: `${siteUrl}${post.frontmatter.image}`,
+    image: `${siteUrl}${post.frontmatter.image || '/images/default.jpg'}`,
     author: {
       '@type': 'Person',
       name: post.frontmatter.author || 'Usongboy',
@@ -140,7 +142,7 @@ export default function PostPageClient({ slug }) {
       name: 'Usongboy',
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/images/usongboy-logo.png`,
+        url: `${siteUrl}/images/Usongboy-logo.png`,
       },
     },
     datePublished: post.frontmatter.date,
@@ -155,12 +157,17 @@ export default function PostPageClient({ slug }) {
     <>
       <div className="max-w-custom mx-auto p-4 mt-16">
         <Image
-          src={post.frontmatter.image}
+          src={
+            imageError || !post.frontmatter.image
+              ? '/images/default.jpg'
+              : post.frontmatter.image
+          }
           alt={post.frontmatter.title}
           className="w-full h-auto mb-4 mx-auto rounded-lg"
           width={800}
           height={450}
           priority
+          onError={() => setImageError(true)}
         />
         <h1 className="text-3xl font-bold text-center">
           {post.frontmatter.title}
@@ -187,7 +194,7 @@ export default function PostPageClient({ slug }) {
                   category
                 ).toLowerCase()}`}
               >
-                <span className="cursor-pointer bg-gray-300 dark:bg-sky-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-400 hover:dark:bg-sky-300">
+                <span className="cursor-pointer bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300">
                   {category}
                 </span>
               </Link>
@@ -201,14 +208,26 @@ export default function PostPageClient({ slug }) {
               {similarPosts.map((similarPost) => (
                 <Link key={similarPost.slug} href={`/${similarPost.slug}`}>
                   <div className="block rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-200">
-                    <div className="relative overflow-hidden">
+                    <div
+                      className="relative overflow-hidden"
+                      style={{ height: '12rem' }}
+                    >
                       <Image
-                        src={similarPost.image}
+                        src={similarPost.image || '/images/default.jpg'}
                         alt={similarPost.title}
-                        className="w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                         width={400}
                         height={300}
                         priority
+                        onError={() =>
+                          setSimilarPosts((prevPosts) =>
+                            prevPosts.map((post) =>
+                              post.slug === similarPost.slug
+                                ? { ...post, image: '/images/default.jpg' }
+                                : post
+                            )
+                          )
+                        }
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
                         <h2 className="text-xl font-bold">
@@ -216,7 +235,7 @@ export default function PostPageClient({ slug }) {
                         </h2>
                       </div>
                     </div>
-                    <div className="p-4 bg-white dark:bg-zinc-800">
+                    <div className="p-4 bg-white dark:bg-zinc-900">
                       <p className="text-black dark:text-slate-300">
                         {similarPost.excerpt}
                       </p>

@@ -25,6 +25,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('@tailwindcss/typography'), 
     function ({ addUtilities }) {
       addUtilities({
         '.text-balance': {

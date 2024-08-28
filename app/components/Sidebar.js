@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { FaFacebook, FaInstagram, FaRss, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import CategoryList from './CategoryList';
+import { useState } from 'react';
 
 const replaceTurkishCharacters = (str) => {
   const turkishMap = {
@@ -30,6 +31,13 @@ const replaceTurkishCharacters = (str) => {
 };
 
 const Sidebar = ({ categories = [], popularPosts, recentPosts }) => {
+  const [imageErrors, setImageErrors] = useState({});
+  const defaultImage = '/images/default.jpg'; // Varsayılan resim yolu
+
+  const handleImageError = (slug) => {
+    setImageErrors((prev) => ({ ...prev, [slug]: true }));
+  };
+
   return (
     <div>
       <section className="mb-4 pb-4">
@@ -67,12 +75,13 @@ const Sidebar = ({ categories = [], popularPosts, recentPosts }) => {
                   className="block overflow-hidden rounded shadow hover:shadow-lg transition-shadow duration-200"
                 >
                   <Image
-                    src={post.image}
+                    src={imageErrors[post.slug] ? defaultImage : post.image}
                     alt={post.title}
                     width={500}
                     height={200}
                     className="w-full h-32 object-cover transition-transform duration-300 transform hover:scale-105"
                     priority
+                    onError={() => handleImageError(post.slug)}
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2">
                     <h2 className="text-sm font-bold">{post.title}</h2>
@@ -98,12 +107,13 @@ const Sidebar = ({ categories = [], popularPosts, recentPosts }) => {
                   className="block overflow-hidden rounded shadow hover:shadow-lg transition-shadow duration-200"
                 >
                   <Image
-                    src={post.image}
+                    src={imageErrors[post.slug] ? defaultImage : post.image}
                     alt={post.title}
                     width={500}
                     height={200}
                     className="w-full h-32 object-cover transition-transform duration-300 transform hover:scale-105"
                     priority
+                    onError={() => handleImageError(post.slug)}
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2">
                     <h2 className="text-sm font-bold">{post.title}</h2>

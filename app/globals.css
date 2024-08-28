@@ -24,6 +24,81 @@ body {
         width: auto;
         height: auto;
     }
+
+    /* Prose Class Customization for MDX */
+    .prose {
+      @apply prose-lg mx-auto; /* Center content */
+      max-width: 86ch !important; /* Override the default 65ch value with !important */
+      color: inherit; /* Use the current text color */
+    }
+
+    .prose img {
+      @apply rounded-lg; /* Round image corners, remove width */
+    }
+
+    .prose h1 {
+      @apply text-4xl font-bold text-black dark:text-white mt-8 mb-4; /* Larger heading */
+    }
+
+    .prose h2 {
+      @apply text-3xl font-semibold text-black dark:text-gray-200 mt-6 mb-4;
+    }
+
+    .prose h3, .prose h4, .prose h5, .prose h6 {
+      @apply text-black dark:text-gray-300 mt-4 mb-2;
+    }
+
+    .prose p {
+      @apply text-lg leading-7 text-black dark:text-gray-300 mt-4 mb-4;
+    }
+
+    .prose a {
+      @apply text-blue-600 dark:text-blue-400 underline;
+    }
+
+    .prose strong {
+      @apply font-bold text-black dark:text-white;
+    }
+
+    .prose em {
+      @apply italic text-black dark:text-gray-200;
+    }
+
+    .prose blockquote {
+      @apply border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic;
+      color: inherit;
+    }
+
+    .prose ul, .prose ol {
+      @apply list-inside list-decimal dark:text-gray-300; /* Use list-decimal to show numbered lists */
+    }
+
+    .prose code {
+      @apply text-pink-600 dark:text-pink-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded;
+    }
+
+    .prose pre {
+      @apply bg-gray-900 text-gray-100 p-4 rounded-lg mt-4 mb-4 overflow-x-auto;
+    }
+
+    .prose table {
+      @apply table-auto w-full text-left border-collapse;
+      border: 1px solid #e2e8f0;
+    }
+
+    .prose thead {
+      @apply bg-gray-200 dark:bg-gray-700;
+    }
+
+    .prose th,
+    .prose td {
+      @apply border px-4 py-2 text-black dark:text-white; /* Black by default, white in dark mode */
+      border: 1px solid #e2e8f0;
+    }
+
+    .prose tbody tr:nth-child(odd) {
+      @apply bg-gray-100 dark:bg-gray-800;
+    }
 }
 
 .spinner-border {
