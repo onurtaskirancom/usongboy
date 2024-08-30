@@ -1,9 +1,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Navbar from './components/Navbar';
-import ThemeProvider from './components/ThemeProvider';
-import ScrollToTop from './components/ScrollToTop';
 import CanonicalHead from './components/CanonicalHead';
+import RootLayoutClient from './RootLayoutClient'; 
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -50,13 +48,7 @@ export default function RootLayout({ children }) {
         <CanonicalHead
           siteUrl={process.env.SITE_URL || 'http://localhost:3000'}
         />
-        <ThemeProvider>
-          <Navbar />
-          <ScrollToTop />
-          <div className="pt-16">
-            <div className="mx-auto">{children}</div>
-          </div>
-        </ThemeProvider>
+        <RootLayoutClient>{children}</RootLayoutClient>{' '}
       </body>
     </html>
   );
