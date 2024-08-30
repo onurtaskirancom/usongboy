@@ -45,13 +45,13 @@ const Sidebar = ({ categories = [], popularPosts, recentPosts }) => {
           Sosyal Medya
         </h3>
         <div className="flex space-x-4 pt-3 ml-4 dark:text-sky-200">
-          <Link href="https://www.facebook.com" aria-label="Facebook">
-            <FaFacebook className="w-8 h-8 hover:text-blue-600" />
-          </Link>
-          <Link href="https://www.twitter.com" aria-label="Twitter">
+          <Link href="https://www.twitter.com/usongboy" aria-label="Twitter">
             <FaXTwitter className="w-8 h-8 hover:text-blue-400" />
           </Link>
-          <Link href="https://www.instagram.com" aria-label="Instagram">
+          <Link
+            href="https://www.instagram.com/usongboy"
+            aria-label="Instagram"
+          >
             <FaInstagram className="w-8 h-8 hover:text-pink-600" />
           </Link>
           <Link href="https://www.youtube.com" aria-label="YouTube">

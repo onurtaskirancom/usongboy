@@ -23,7 +23,7 @@ export async function generateMetadata() {
     },
     twitter: {
       card: 'summary_large_image',
-      site: '@Usongboy',
+      site: '@usongboy',
       title: 'Usongboy | Danışmanlık Al',
       description:
         'Usongboy ile kişisel gelişim danışmanlığı talebinde bulunun.',

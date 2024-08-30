@@ -37,7 +37,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: 'summary_large_image',
-      site: '@Usongboy',
+      site: '@usongboy',
       title: `Usongboy | ${
         formattedCategory.charAt(0).toUpperCase() + formattedCategory.slice(1)
       } Yazıları`,

@@ -25,7 +25,7 @@ export const generateMetadata = () => {
     },
     twitter: {
       card: 'summary_large_image',
-      site: '@Usongboy',
+      site: '@usongboy',
       title: 'Usongboy | Hakkımızda',
       description: 'Usongboy hakkında bilgi edinin.',
       images: `${siteUrl}/images/usongboy-logo.png`,

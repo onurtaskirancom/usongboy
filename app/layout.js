@@ -31,7 +31,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@Usongboy',
+    site: '@usongboy',
     title: 'Usongboy | Kişisel Gelişim ve Danışmanlık Platformu',
     description:
       'Usongboy, kişisel gelişim, motivasyon, ve yaşam kalitesini artırma konularında doğru bilgileri sunar. Hedeflerinize ulaşmanız için buradayız.',

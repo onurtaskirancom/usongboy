@@ -24,51 +24,53 @@ const Footer = () => {
               />
             </Link>
           </div>
-          <div className="flex flex-col items-center space-y-4 mb-4">
-            <div className="flex space-x-4">
-              <Link href="/" className="hover:text-pink-600 hover:no-underline">
-                Anasayfa
-              </Link>
-              <Link
-                href="/hakkimizda"
-                className="hover:text-pink-600 hover:no-underline"
-              >
-                Hakkımızda
-              </Link>
-              <Link
-                href="/iletisim"
-                className="hover:text-pink-600 hover:no-underline"
-              >
-                İletişim
-              </Link>
-              <Link
-                href="/antrenman"
-                className="hover:text-pink-600 hover:no-underline"
-              >
-                Antrenman
-              </Link>
-              <Link
-                href="/beslenme"
-                className="hover:text-pink-600 hover:no-underline"
-              >
-                Beslenme
-              </Link>
-              <Link
-                href="/kocluk-al"
-                className="hover:text-pink-600 hover:no-underline"
-              >
-                Koçluk Al
-              </Link>
-            </div>
-          </div>
-          <div className="flex space-x-4 mb-4">
-            <Link href="https://www.facebook.com" aria-label="Facebook">
-              <FaFacebook className="w-6 h-6 hover:text-blue-600" />
+
+          {/* Menü Listesi */}
+          <div className="flex flex-wrap justify-center space-x-4 mb-4 text-center">
+            <Link href="/" className="hover:text-pink-600 hover:no-underline">
+              Anasayfa
             </Link>
-            <Link href="https://www.twitter.com" aria-label="Twitter">
+            <Link
+              href="/hakkimizda"
+              className="hover:text-pink-600 hover:no-underline"
+            >
+              Hakkımızda
+            </Link>
+            <Link
+              href="/iletisim"
+              className="hover:text-pink-600 hover:no-underline"
+            >
+              İletişim
+            </Link>
+            <Link
+              href="/antrenman"
+              className="hover:text-pink-600 hover:no-underline"
+            >
+              Antrenman
+            </Link>
+            <Link
+              href="/beslenme"
+              className="hover:text-pink-600 hover:no-underline"
+            >
+              Beslenme
+            </Link>
+            <Link
+              href="/kocluk-al"
+              className="hover:text-pink-600 hover:no-underline"
+            >
+              Koçluk Al
+            </Link>
+          </div>
+
+          {/* Sosyal Medya İkonları */}
+          <div className="flex space-x-4 mb-4">
+            <Link href="https://www.twitter.com/usongboy" aria-label="Twitter">
               <FaXTwitter className="w-6 h-6 hover:text-blue-400" />
             </Link>
-            <Link href="https://www.instagram.com" aria-label="Instagram">
+            <Link
+              href="https://www.instagram.com/usongboy"
+              aria-label="Instagram"
+            >
               <FaInstagram className="w-6 h-6 hover:text-pink-600" />
             </Link>
             <Link href="https://www.youtube.com" aria-label="YouTube">
@@ -78,6 +80,7 @@ const Footer = () => {
               <FaRss className="w-6 h-6 hover:text-orange-600" />
             </Link>
           </div>
+
           <div className="text-center">
             <p>Copyright © {currentYear} usongboy</p>
           </div>
