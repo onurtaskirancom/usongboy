@@ -7,6 +7,22 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
+// A helper function that defines the date
+const parseDate = (dateString) => {
+  // If the date format is 'day-month-year', convert it to 'year-month-day'
+  if (dateString.includes('-')) {
+    const parts = dateString.split('-');
+    if (parts[2].length === 4) {
+      // 'day-month-year' format
+      return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+    } else {
+      // 'year-month-day' format
+      return new Date(dateString);
+    }
+  }
+  return new Date(dateString); // If it is already a valid date format
+};
+
 export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -27,19 +43,24 @@ export default function Home() {
         return;
       }
       const data = await res.json();
-      setPosts(data.sort((a, b) => new Date(b.date) - new Date(a.date)));
+
+      // Sort posts by date in reverse order (most recent dates first)
+      const sortedPosts = data.sort(
+        (a, b) => parseDate(b.date) - parseDate(a.date)
+      );
+
+      setPosts(sortedPosts);
+
+      // Sort popular posts by number of views
       setPopularPosts(
-        data
+        sortedPosts
           .slice()
           .sort((a, b) => b.views - a.views)
           .slice(0, 5)
       );
-      setRecentPosts(
-        data
-          .slice()
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 5)
-      );
+
+      // Sort newest posts by date and get top 5 posts
+      setRecentPosts(sortedPosts.slice(0, 5));
     }
 
     async function fetchCategories() {
