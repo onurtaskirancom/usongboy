@@ -59,8 +59,8 @@ export default function SearchResultsClient({ searchParams }) {
                   onClick={() => paginate(index + 1)}
                   className={`px-4 py-2 mx-1 rounded ${
                     currentPage === index + 1
-                      ? 'bg-gray-900 text-white'
-                      : 'bg-gray-300 text-black'
+                      ? 'bg-blue-400 text-slate-900'
+                      : 'bg-zinc-800 text-slate-300'
                   }`}
                 >
                   {index + 1}

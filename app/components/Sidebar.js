@@ -32,7 +32,7 @@ const replaceTurkishCharacters = (str) => {
 
 const Sidebar = ({ categories = [], popularPosts, recentPosts }) => {
   const [imageErrors, setImageErrors] = useState({});
-  const defaultImage = '/images/default.jpg'; // Varsayılan resim yolu
+  const defaultImage = '/images/default.jpg';
 
   const handleImageError = (slug) => {
     setImageErrors((prev) => ({ ...prev, [slug]: true }));

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import BlogList from '../../components/BlogList';
-import replaceTurkishChars from '../../utils/turkishChars'; 
+import replaceTurkishChars from '../../utils/turkishChars';
 import Footer from '@/app/components/Footer';
 
 export default function CategoryPageClient({ category }) {
@@ -59,8 +59,8 @@ export default function CategoryPageClient({ category }) {
                 onClick={() => paginate(index + 1)}
                 className={`px-4 py-2 mx-1 rounded ${
                   currentPage === index + 1
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-300 text-black'
+                    ? 'bg-blue-400 text-slate-900'
+                    : 'bg-zinc-800 text-slate-300'
                 }`}
               >
                 {index + 1}
