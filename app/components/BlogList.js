@@ -11,7 +11,7 @@ const BlogList = ({ posts }) => {
     setImageErrors((prev) => ({ ...prev, [slug]: true }));
   };
 
-  const defaultImage = '/images/default.jpg'; // Varsayılan resim yolu
+  const defaultImage = '/images/default.jpg';
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

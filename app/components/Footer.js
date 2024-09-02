@@ -43,26 +43,13 @@ const Footer = () => {
               İletişim
             </Link>
             <Link
-              href="/antrenman"
+              href="/danismanlik-al"
               className="hover:text-pink-600 hover:no-underline"
             >
-              Antrenman
-            </Link>
-            <Link
-              href="/beslenme"
-              className="hover:text-pink-600 hover:no-underline"
-            >
-              Beslenme
-            </Link>
-            <Link
-              href="/kocluk-al"
-              className="hover:text-pink-600 hover:no-underline"
-            >
-              Koçluk Al
+              Danışmanlık Al
             </Link>
           </div>
 
-          {/* Sosyal Medya İkonları */}
           <div className="flex space-x-4 mb-4">
             <Link href="https://www.twitter.com/usongboy" aria-label="Twitter">
               <FaXTwitter className="w-6 h-6 hover:text-blue-400" />

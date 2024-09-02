@@ -8,14 +8,7 @@ export async function GET() {
   const postsDirectory = path.join(process.cwd(), 'app/posts');
   const filenames = fs.readdirSync(postsDirectory);
 
-  const staticPages = [
-    '',
-    'antrenman',
-    'beslenme',
-    'hakkimizda',
-    'iletisim',
-    'kocluk-al',
-  ];
+  const staticPages = ['', 'hakkimizda', 'iletisim', 'danismanlik-al'];
 
   const dynamicPages = filenames.map((filename) => {
     return `posts/${filename.replace('.mdx', '')}`;
