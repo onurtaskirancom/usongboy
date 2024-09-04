@@ -29,7 +29,7 @@ const TrendPosts = ({ title, posts }) => {
     setImageErrors((prev) => ({ ...prev, [slug]: true }));
   };
 
-  const defaultImage = '/images/default.jpg'; // Varsayılan resim yolu
+  const defaultImage = '/images/default.jpg'; 
 
   return (
     <div className="px-4">

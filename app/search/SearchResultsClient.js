@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 
 export default function SearchResultsClient({ searchParams }) {
   const router = useRouter();
-  const query = searchParams?.q || ''; // Arama sorgusunu alıyoruz
+  const query = searchParams?.q || ''; 
   const page = searchParams?.page || 1;
   const currentPage = parseInt(page, 10);
 
@@ -22,10 +22,10 @@ export default function SearchResultsClient({ searchParams }) {
           throw new Error('Failed to fetch posts');
         }
         const data = await res.json();
-        setPosts(data || []); // Eğer data undefined ise boş array olarak ayarla
+        setPosts(data || []); 
       } catch (error) {
         console.error('Error fetching posts:', error);
-        setPosts([]); // Hata durumunda boş array olarak ayarla
+        setPosts([]); 
       }
     }
 
