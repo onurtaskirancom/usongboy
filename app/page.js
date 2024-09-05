@@ -93,7 +93,19 @@ export default function Home() {
         <div className="flex flex-col md:flex-row">
           <main className="w-full md:w-3/4 p-4">
             <BlogList posts={currentPosts} />
-            <div className="pagination mt-4 flex justify-center">
+            <div className="pagination mt-4 flex justify-center items-center">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`px-4 py-2 mx-1 rounded ${
+                  currentPage === 1
+                    ? 'bg-zinc-700 text-slate-300'
+                    : 'bg-zinc-800 text-slate-300'
+                }`}
+              >
+                Önceki
+              </button>
+
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index + 1}
@@ -107,6 +119,17 @@ export default function Home() {
                   {index + 1}
                 </button>
               ))}
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`px-4 py-2 mx-1 rounded ${
+                  currentPage === totalPages
+                    ? 'bg-zinc-700 text-slate-300'
+                    : 'bg-zinc-800 text-slate-300'
+                }`}
+              >
+                Sonraki
+              </button>
             </div>
           </main>
           <aside className="w-full md:w-1/4 p-4">

@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 
 export default function SearchResultsClient({ searchParams }) {
   const router = useRouter();
-  const query = searchParams?.q || ''; 
+  const query = searchParams?.q || '';
   const page = searchParams?.page || 1;
   const currentPage = parseInt(page, 10);
 
@@ -22,10 +22,10 @@ export default function SearchResultsClient({ searchParams }) {
           throw new Error('Failed to fetch posts');
         }
         const data = await res.json();
-        setPosts(data || []); 
+        setPosts(data || []);
       } catch (error) {
         console.error('Error fetching posts:', error);
-        setPosts([]); 
+        setPosts([]);
       }
     }
 
@@ -52,7 +52,19 @@ export default function SearchResultsClient({ searchParams }) {
         {currentPosts.length > 0 ? (
           <>
             <BlogList posts={currentPosts} />
-            <div className="pagination mt-4 flex justify-center">
+            <div className="pagination mt-4 flex justify-center items-center">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`px-4 py-2 mx-1 rounded ${
+                  currentPage === 1
+                    ? 'bg-zinc-700 text-slate-300'
+                    : 'bg-zinc-800 text-slate-300'
+                }`}
+              >
+                Önceki
+              </button>
+
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index + 1}
@@ -66,6 +78,18 @@ export default function SearchResultsClient({ searchParams }) {
                   {index + 1}
                 </button>
               ))}
+
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`px-4 py-2 mx-1 rounded ${
+                  currentPage === totalPages
+                    ? 'bg-zinc-700 text-slate-300'
+                    : 'bg-zinc-800 text-slate-300'
+                }`}
+              >
+                Sonraki
+              </button>
             </div>
           </>
         ) : (
