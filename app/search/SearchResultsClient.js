@@ -52,14 +52,14 @@ export default function SearchResultsClient({ searchParams }) {
         {currentPosts.length > 0 ? (
           <>
             <BlogList posts={currentPosts} />
-            <div className="pagination mt-4 flex justify-center items-center">
+            <div className="pagination mt-4 flex flex-wrap justify-center items-center space-x-2 space-y-2">
               <button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`px-4 py-2 mx-1 rounded ${
+                className={`px-4 py-2 mt-2 mx-1 rounded text-lg ${
                   currentPage === 1
-                    ? 'bg-zinc-700 text-slate-300'
-                    : 'bg-zinc-800 text-slate-300'
+                    ? 'bg-zinc-700 text-slate-300 cursor-default'
+                    : 'bg-zinc-800 text-slate-300 cursor-pointer'
                 }`}
               >
                 Önceki
@@ -69,7 +69,7 @@ export default function SearchResultsClient({ searchParams }) {
                 <button
                   key={index + 1}
                   onClick={() => paginate(index + 1)}
-                  className={`px-4 py-2 mx-1 rounded ${
+                  className={`px-4 py-2 mx-1 rounded text-lg ${
                     currentPage === index + 1
                       ? 'bg-blue-400 text-slate-900'
                       : 'bg-zinc-800 text-slate-300'
@@ -82,10 +82,10 @@ export default function SearchResultsClient({ searchParams }) {
               <button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`px-4 py-2 mx-1 rounded ${
+                className={`px-4 py-2 mx-1 rounded text-lg ${
                   currentPage === totalPages
-                    ? 'bg-zinc-700 text-slate-300'
-                    : 'bg-zinc-800 text-slate-300'
+                    ? 'bg-zinc-700 text-slate-300 cursor-default'
+                    : 'bg-zinc-800 text-slate-300 cursor-pointer'
                 }`}
               >
                 Sonraki
