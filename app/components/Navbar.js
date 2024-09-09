@@ -56,7 +56,7 @@ const Navbar = () => {
             >
               <input
                 type="text"
-                className="px-3 py-1 w-80 rounded-md text-sm bg-gray-200 dark:bg-zinc-700 text-gray-800 dark:text-white focus:outline-none"
+                className="px-3 py-1.5 w-80 rounded-md text-sm bg-gray-200 dark:bg-zinc-700 text-gray-800 dark:text-white focus:outline-none"
                 placeholder="Ara..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -64,11 +64,12 @@ const Navbar = () => {
               <button
                 type="button"
                 onClick={handleSearch}
-                className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 text-gray-800 dark:text-white rounded-md flex items-center"
+                className="px-3 py-1.5 bg-gray-200 dark:bg-zinc-700 text-gray-800 dark:text-white rounded-md flex items-center"
               >
-                <FaSearch />
+                <FaSearch className="text-base" />
               </button>
             </form>
+
 
             <Link
               href="/"

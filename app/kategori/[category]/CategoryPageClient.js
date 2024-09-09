@@ -12,8 +12,8 @@ export default function CategoryPageClient({ category }) {
   const page = searchParams.get('page');
   const currentPage = page ? parseInt(page, 10) : 1;
 
-  const [posts, setPosts] = useState([]);
-  const postsPerPage = 6;
+  const [posts, setPosts] = useState([]); 
+  const postsPerPage = 6; 
 
   useEffect(() => {
     async function fetchCategoryPosts() {
