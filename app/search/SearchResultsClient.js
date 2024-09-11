@@ -22,7 +22,13 @@ export default function SearchResultsClient({ searchParams }) {
           throw new Error('Failed to fetch posts');
         }
         const data = await res.json();
-        setPosts(data || []);
+        // Sort posts by date
+        const sortedPosts = data.sort((a, b) => {
+          const [dayA, monthA, yearA] = a.date.split('-');
+          const [dayB, monthB, yearB] = b.date.split('-');
+          return new Date(yearB, monthB - 1, dayB) - new Date(yearA, monthA - 1, dayA);
+        });
+        setPosts(sortedPosts || []);
       } catch (error) {
         console.error('Error fetching posts:', error);
         setPosts([]);
