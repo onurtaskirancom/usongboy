@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Footer from '../components/Footer';
-import replaceTurkishChars from '../utils/turkishChars'; 
+import replaceTurkishChars from '../utils/turkishChars';
 import { MdOutlineDateRange } from 'react-icons/md';
 import Image from 'next/image';
 
@@ -13,13 +13,17 @@ const MDXRemote = dynamic(() =>
   import('next-mdx-remote').then((mod) => mod.MDXRemote)
 );
 
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('tr-TR', options);
+};
+
 export default function PostPageClient({ slug }) {
   const [post, setPost] = useState(null);
   const [similarPosts, setSimilarPosts] = useState([]);
   const hasIncrementedViews = useRef(false);
   const firstRender = useRef(true);
   const router = useRouter();
-
   const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
@@ -65,27 +69,31 @@ export default function PostPageClient({ slug }) {
 
     firstRender.current = false;
 
-    async function incrementViews() {
+    const incrementViews = async (slug) => {
       try {
-        const res = await fetch('/api/increment-views', {
+        const response = await fetch('/api/increment-views', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ slug }),
         });
-        if (!res.ok) {
-          const errorResponse = await res.json();
-          console.error('Failed to increment views:', errorResponse);
-          throw new Error('Failed to increment views');
-        }
-        hasIncrementedViews.current = true;
-      } catch (error) {
-        console.error('Error in incrementViews:', error);
-      }
-    }
 
-    incrementViews();
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to increment views');
+        }
+
+        const data = await response.json();
+        return data.views;
+      } catch (error) {
+        console.error('Error incrementing views:', error);
+        return null;
+      }
+    };
+
+    incrementViews(slug);
+    hasIncrementedViews.current = true;
   }, [slug]);
 
   useEffect(() => {
@@ -100,7 +108,7 @@ export default function PostPageClient({ slug }) {
 
       const category = replaceTurkishChars(
         post.frontmatter.categories[0]
-      ).toLowerCase(); 
+      ).toLowerCase();
       try {
         const res = await fetch(
           `/api/similar-posts?category=${category}&slug=${slug}`
@@ -176,13 +184,13 @@ export default function PostPageClient({ slug }) {
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-600"></div>
           </div>
-          <span className="relative bg-slate-200 dark:bg-gray-900 px-4 flex items=center">
+          <span className="relative bg-slate-200 dark:bg-gray-900 px-4 flex items-center">
             <MdOutlineDateRange className="mr-2" />
-            {post.frontmatter.date}
+            {formatDate(post.frontmatter.date)}
           </span>
         </div>
         <div className="prose mx-auto text-black dark:text-zinc-200 mt-4">
-          <MDXRemote {...post.mdxSource} />
+          {post.mdxSource && <MDXRemote {...post.mdxSource} />}
         </div>
         <div className="mt-8">
           <h2 className="text-xl font-semibold">Kategoriler</h2>
@@ -192,9 +200,9 @@ export default function PostPageClient({ slug }) {
                 key={category}
                 href={`/kategori/${replaceTurkishChars(
                   category
-                ).toLowerCase()}`} 
+                ).toLowerCase()}`}
               >
-                <span className="cursor-pointer bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300">
+                <span className="cursor-pointer dark:bg-blue-300 bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-blue-400">
                   {category}
                 </span>
               </Link>

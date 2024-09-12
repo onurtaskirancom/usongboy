@@ -35,7 +35,7 @@ const BlogList = ({ posts }) => {
               onError={() => handleImageError(post.slug)}
             />
           </div>
-          <div className="p-8 bg-white dark:bg-zinc-800">
+          <div className="p-8 bg-white dark:bg-zinc-800 h-full">
             <h2 className="text-2xl font-semibold mb-4 text-black dark:text-white">
               {post.title}
             </h2>

@@ -4,8 +4,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaFacebook, FaInstagram, FaRss, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { useState, useEffect } from 'react';
+import { ref, get } from 'firebase/database';
+import { database } from '../utils/firebaseConfig';
 import CategoryList from './CategoryList';
-import { useState } from 'react';
 
 const replaceTurkishCharacters = (str) => {
   const turkishMap = {
@@ -30,9 +32,53 @@ const replaceTurkishCharacters = (str) => {
     .replace(/\s+/g, '-');
 };
 
-const Sidebar = ({ categories = [], popularPosts, recentPosts }) => {
+const Sidebar = ({ categories = [], recentPosts = [] }) => {
   const [imageErrors, setImageErrors] = useState({});
+  const [popularPosts, setPopularPosts] = useState([]);
   const defaultImage = '/images/default.jpg';
+
+  useEffect(() => {
+    async function fetchPopularPosts() {
+      try {
+        const postsRef = ref(database, 'views/');
+        const snapshot = await get(postsRef);
+
+        const response = await fetch('/api/posts');
+        const allPosts = await response.json();
+
+        if (snapshot.exists()) {
+          const postsArray = [];
+          snapshot.forEach((childSnapshot) => {
+            const views = childSnapshot.val().views || 0;
+            const slug = childSnapshot.key;
+            const postData = allPosts.find(post => post.slug === slug);
+            if (postData) {
+              postsArray.push({
+                slug: slug,
+                title: postData.title,
+                views: views,
+                image: postData.image
+              });
+            }
+          });
+
+          const sortedPosts = postsArray
+            .filter((post) => post.views > 0)
+            .sort((a, b) => b.views - a.views)
+            .slice(0, 5);
+
+          setPopularPosts(sortedPosts);
+        } else {
+          setPopularPosts([]);
+        }
+      } catch (error) {
+        console.error('Error fetching popular posts:', error);
+        setPopularPosts([]);
+      }
+    }
+
+    fetchPopularPosts();
+  }, []);
 
   const handleImageError = (slug) => {
     setImageErrors((prev) => ({ ...prev, [slug]: true }));
@@ -41,7 +87,7 @@ const Sidebar = ({ categories = [], popularPosts, recentPosts }) => {
   return (
     <div>
       <section className="mb-4 pb-4">
-        <h3 className="text-xl font-bold border-l-4 border-blue-400 pl-3">
+        <h3 className="text-xl font-bold border-l-4 border-blue-500 pl-3">
           Sosyal Medya
         </h3>
         <div className="flex space-x-4 pt-3 ml-4 dark:text-sky-200">
