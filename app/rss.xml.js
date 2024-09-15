@@ -1,4 +1,4 @@
-import { generateRSSFeed } from '../api/rss/route';
+import { generateRSSFeed } from './api/rss/route';
 
 export async function GET(req) {
   const rssFeed = await generateRSSFeed();
