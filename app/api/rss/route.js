@@ -1,77 +1,77 @@
+import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { Feed } from 'feed';
 
-export async function GET(req) {
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
+  console.log('RSS feed generation started');
+
   try {
-    const blogDirectory = path.join(process.cwd(), 'app', 'posts');
-    const files = fs.readdirSync(blogDirectory);
+    const siteUrl = process.env.SITE_URL || 'https://www.usongboy.com';
+    const postsDirectory = path.join(process.cwd(), 'app', 'posts');
+    
+    console.log(`Posts directory: ${postsDirectory}`);
 
-    if (files.length === 0) {
-      return new Response('<rss version="2.0"><channel></channel></rss>', {
-        headers: {
-          'Content-Type': 'application/xml',
-        },
-      });
+    if (!fs.existsSync(postsDirectory)) {
+      console.error(`Directory not found: ${postsDirectory}`);
+      return new NextResponse('Error: Posts directory not found', { status: 500 });
     }
-
-    const posts = files.map((filename) => {
-      const filePath = path.join(blogDirectory, filename);
-      const markdownWithMeta = fs.readFileSync(filePath, 'utf-8');
-      const { data: frontmatter } = matter(markdownWithMeta);
-
-      return {
-        title: frontmatter.title,
-        id: `${process.env.SITE_URL}/${filename.replace('.mdx', '')}`,
-        link: `${process.env.SITE_URL}/${filename.replace('.mdx', '')}`,
-        description: frontmatter.excerpt,
-        date: new Date(frontmatter.date),
-      };
-    });
+    
+    const files = fs.readdirSync(postsDirectory);
+    console.log(`Found ${files.length} files`);
 
     const feed = new Feed({
-      title: 'Usongboy',
+      title: "Usongboy",
       description: 'Kişisel gelişim üzerine bir blog ve danışmanlık sitesi',
-      id: process.env.SITE_URL,
-      link: process.env.SITE_URL,
+      id: siteUrl,
+      link: siteUrl,
       language: 'tr',
-      updated: new Date(posts[0]?.date || Date.now()),
-      feedLinks: {
-        rss2: `${process.env.SITE_URL}/rss.xml`,
-      },
+      favicon: `${siteUrl}/favicon.ico`,
+      copyright: `Tüm hakları saklıdır ${new Date().getFullYear()}`,
       author: {
         name: 'Usongboy',
+        email: 'ongboycom@gmail.com',
+        link: siteUrl,
+      },
+      feedLinks: {
+        rss2: `${siteUrl}/rss.xml`,
       },
     });
 
-    if (posts.length > 0) {
-      posts.forEach((post) => {
-        feed.addItem({
-          title: post.title,
-          id: post.id,
-          link: post.link,
-          description: post.description,
-          date: post.date,
-        });
+    files.forEach((fileName) => {
+      const filePath = path.join(postsDirectory, fileName);
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const { data, content } = matter(fileContents);
+      
+      feed.addItem({
+        title: data.title,
+        id: `${siteUrl}/${fileName.replace('.mdx', '')}`,
+        link: `${siteUrl}/${fileName.replace('.mdx', '')}`,
+        description: data.excerpt,
+        content: content,
+        author: [
+          {
+            name: 'Usongboy',
+            email: 'ongboycom@gmail.com',
+            link: siteUrl,
+          },
+        ],
+        date: new Date(data.date),
       });
-    }
+    });
 
-    let rssFeed = feed.rss2();
+    console.log('RSS feed generated successfully');
 
-    rssFeed = rssFeed.replace(/<generator>.*<\/generator>/, '');
-
-    return new Response(rssFeed, {
+    return new NextResponse(feed.rss2(), {
       headers: {
-        'Content-Type': 'application/xml',
+        'Content-Type': 'application/xml; charset=utf-8',
       },
     });
   } catch (error) {
     console.error('Error generating RSS feed:', error);
-    return new Response('<rss version="2.0"><channel></channel></rss>', {
-      headers: {
-        'Content-Type': 'application/xml',
-      },
-    });
+    return new NextResponse(`Error generating RSS feed: ${error.message}`, { status: 500 });
   }
 }

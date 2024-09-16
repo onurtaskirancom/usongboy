@@ -7,12 +7,11 @@ import rehypePrism from '@mapbox/rehype-prism';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx'],
-  async redirects() {
+  async rewrites() {
     return [
       {
         source: '/rss.xml',
         destination: '/api/rss',
-        permanent: true,
       },
     ];
   },

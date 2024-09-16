@@ -215,7 +215,7 @@ export default function PostPageClient({ slug }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
               {similarPosts.map((similarPost) => (
                 <Link key={similarPost.slug} href={`/${similarPost.slug}`}>
-                  <div className="block rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-200">
+                  <div className="block rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-200 h-full">
                     <div
                       className="relative overflow-hidden"
                       style={{ height: '12rem' }}
@@ -243,7 +243,7 @@ export default function PostPageClient({ slug }) {
                         </h2>
                       </div>
                     </div>
-                    <div className="p-4 bg-white dark:bg-zinc-900">
+                    <div className="p-4 bg-white dark:bg-zinc-900 ">
                       <p className="text-black dark:text-slate-300">
                         {similarPost.excerpt}
                       </p>

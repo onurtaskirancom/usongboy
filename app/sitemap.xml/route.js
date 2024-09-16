@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   const baseUrl = process.env.SITE_URL || 'http://localhost:3000';
 
-  const postsDirectory = path.join(process.cwd(), 'app/posts');
+  const postsDirectory = path.join(process.cwd(), 'app', 'posts');
   const filenames = fs.readdirSync(postsDirectory);
 
   const staticPages = ['', 'hakkimizda', 'iletisim', 'danismanlik-al'];
