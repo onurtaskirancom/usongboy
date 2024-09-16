@@ -87,7 +87,7 @@ const Sidebar = ({ categories = [], recentPosts = [] }) => {
   return (
     <div>
       <section className="mb-4 pb-4">
-        <h3 className="text-xl font-bold border-l-4 border-blue-500 pl-3">
+        <h3 className="text-xl font-bold border-l-4 border-blue-400 pl-3">
           Sosyal Medya
         </h3>
         <div className="flex space-x-4 pt-3 ml-4 dark:text-sky-200">
