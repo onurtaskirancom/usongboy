@@ -42,9 +42,9 @@ const Navbar = () => {
                 width={95}
                 height={95}
                 priority
-                className="w-20 h-20 sm:w-16 sm:h-16"
+                className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18"
               />
-              <span className="ml-2 text-3xl font-bold text-gray-800 dark:text-slate-300 sm:text-2xl">
+              <span className="ml-2 text-xl font-bold text-gray-800 dark:text-slate-300 sm:text-2xl md:text-3xl">
                 Usongboy
               </span>
             </Link>
@@ -106,36 +106,48 @@ const Navbar = () => {
               {theme === 'dark' ? <MdOutlineLightMode /> : <FaMoon />}
             </button>
           </div>
-          <div className="flex xl:hidden">
+          <div className="flex xl:hidden items-center">
+            <button
+              onClick={toggleTheme}
+              className="text-gray-800 dark:text-white hover:text-gray-500 dark:hover:text-slate-400 px-3 py-2 rounded-md text-xl font-medium flex items-center mr-2"
+            >
+              {theme === 'dark' ? <MdOutlineLightMode /> : <FaMoon />}
+            </button>
             <button
               onClick={toggleMenu}
               type="button"
-              className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white mr-[3.25rem]"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">Ana menüyü aç</span>
               <svg
-                className="h-6 w-6"
+                className={`${isOpen ? 'hidden' : 'block'} h-6 w-6`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 aria-hidden="true"
               >
-                {isOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  />
-                )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <svg
+                className={`${isOpen ? 'block' : 'hidden'} h-6 w-6`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
