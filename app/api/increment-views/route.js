@@ -1,4 +1,4 @@
-import { ref, get, set } from 'firebase/database';
+import { ref, runTransaction } from 'firebase/database';
 import { database } from '../../utils/firebaseConfig';
 
 export async function POST(req) {
@@ -13,17 +13,20 @@ export async function POST(req) {
       });
     }
 
-    const viewRef = ref(database, `views/${slug}`);
-    const snapshot = await get(viewRef);
+    const postRef = ref(database, `views/${slug}`);
 
-    let currentViews = 0;
-    if (snapshot.exists()) {
-      currentViews = snapshot.val().views || 0;
-    }
+    let updatedViews = 0;
 
-    const updatedViews = currentViews + 1;
-
-    await set(viewRef, { views: updatedViews });
+    await runTransaction(postRef, (currentData) => {
+      if (currentData === null) {
+        updatedViews = 1;
+        return { views: updatedViews };
+      } else {
+        const currentViews = currentData.views || 0;
+        updatedViews = currentViews + 1;
+        return { views: updatedViews };
+      }
+    });
 
     return new Response(
       JSON.stringify({ success: true, views: updatedViews }),
